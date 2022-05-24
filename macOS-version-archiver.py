@@ -2,8 +2,6 @@
 
 """
 macOS Spotify Version Archiver
-Author: @lhvy
-Date: 2022-05-23
 
 This script is used to archive builds of Spotify for macOS. It works by doing the following:
 1. Downloading and extracting the latest online installer
