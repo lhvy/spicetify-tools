@@ -24,9 +24,12 @@ import urllib.request
 import zipfile
 import plistlib
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 INSTALLER_URL = "https://download.scdn.co/SpotifyInstaller.zip"
-DOWNLOAD_PATH = "~/SpotifyBuilds"
+DOWNLOAD_PATH = os.environ.get("SPOTIFY_DOWNLOAD_PATH", "~/SpotifyArchive")
 
 # Ensure the local download path exists
 DOWNLOAD_PATH = os.path.expanduser(DOWNLOAD_PATH)
