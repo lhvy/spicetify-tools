@@ -48,6 +48,7 @@ info = plistlib.load(installer.open("Install Spotify.app/Contents/Info.plist"))
 
 version = info["CFBundleShortVersionString"]
 urls = info["SpotifyDownloadURL"]
+print("Detected latest version: " + version)
 
 if os.path.exists(DOWNLOAD_PATH + "/" + version):
     # Version may have been downloaded, need to check file by file
@@ -61,11 +62,13 @@ else:
 
 # Download the apps
 for url in urls.values():
+    filename = url.split("/")[-1]
+    print("Downloading " + filename)
     try:
         try:
             urllib.request.urlretrieve(
                 url,
-                DOWNLOAD_PATH + "/" + version + "/" + url.split("/")[-1],
+                DOWNLOAD_PATH + "/" + version + "/" + filename,
             )
         except urllib.error.HTTPError as e:
             # Don't exit, just skip the file as there may be others to download
@@ -73,6 +76,7 @@ for url in urls.values():
                 "HTTP error " + str(e.code) + " downloading " + url + " : " + e.reason
             )
             raise  # Raise error so we can clean up after ourselves regardless of the error type
+        print("Downloaded " + filename)
     except:
-        if os.path.exists(DOWNLOAD_PATH + "/" + version + "/" + url.split("/")[-1]):
-            os.remove(DOWNLOAD_PATH + "/" + version + "/" + url.split("/")[-1])
+        if os.path.exists(DOWNLOAD_PATH + "/" + version + "/" + filename):
+            os.remove(DOWNLOAD_PATH + "/" + version + "/" + filename)
